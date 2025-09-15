@@ -34,7 +34,7 @@ backend.addOutput({
         //@ts-expect-error amplify backend type issue https://github.com/aws-amplify/amplify-backend/issues/2569
         paths: {
           "*": {
-            groupsmueldl: ["get", "list", "write", "delete"],
+            groupsmuel: ["get", "list", "write", "delete"],
           },
         },
       }
@@ -99,4 +99,4 @@ const dlPolicy = new Policy(backend.stack, "customBucketDlPolicy", {
 
 // Add the policies to the muel user role
 backend.auth.resources.groups["muel"].role.attachInlinePolicy(muelPolicy);
-backend.auth.resources.groups["mueldl"].role.attachInlinePolicy(dlPolicy);
+backend.auth.resources.groups["muel"].role.attachInlinePolicy(dlPolicy);
