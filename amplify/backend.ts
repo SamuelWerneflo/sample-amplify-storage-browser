@@ -22,7 +22,7 @@ backend.addOutput({
         //@ts-expect-error amplify backend type issue https://github.com/aws-amplify/amplify-backend/issues/2569
         paths: {
           "*": {
-            groupsdl: ["get", "list", "write", "delete"],
+            groupsmuel: ["get", "list", "write", "delete"],
             authenticated: ["list"],
           },
         },
@@ -34,7 +34,7 @@ backend.addOutput({
         //@ts-expect-error amplify backend type issue https://github.com/aws-amplify/amplify-backend/issues/2569
         paths: {
           "*": {
-            groupsmuel: ["get", "list", "write", "delete"],
+            groupsdl: ["get", "list", "write", "delete"],
             authenticated: ["list"],
           },
         },
