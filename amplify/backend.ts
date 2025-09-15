@@ -76,7 +76,7 @@ const muelPolicy = new Policy(backend.stack, "customBucketMuelPolicy", {
       resources: [
         `arn:aws:s3:::samueeel`,
         `arn:aws:s3:::samueeel/*`,
-        `arn:aws:s3:::samuel-glue-test/`,
+        `arn:aws:s3:::samuel-glue-test`,
         `arn:aws:s3:::samuel-glue-test/*`
       ],
     }),
