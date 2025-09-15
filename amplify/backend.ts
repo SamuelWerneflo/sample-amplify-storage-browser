@@ -79,7 +79,7 @@ const muelPolicy = new Policy(backend.stack, "customBucketMuelPolicy", {
   ],
 });
 
-const muelPolicy = new Policy(backend.stack, "customBucketDlPolicy", {
+const dlPolicy = new Policy(backend.stack, "customBucketDlPolicy", {
   statements: [
     new PolicyStatement({
       effect: Effect.ALLOW,
