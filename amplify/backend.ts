@@ -23,7 +23,6 @@ backend.addOutput({
         paths: {
           "*": {
             groupsdl: ["get", "list", "write", "delete"],
-            groupsmuel: ["get", "list", "write", "delete"],
           },
         },
       },
@@ -35,6 +34,7 @@ backend.addOutput({
         paths: {
           "*": {
             groupsdl: ["get", "list", "write", "delete"],
+            groupsmuel: ["get", "list", "write", "delete"],
           },
         },
       }
