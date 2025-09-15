@@ -1,6 +1,6 @@
 import { defineBackend } from "@aws-amplify/backend";
 import { auth } from "./auth/resource";
-import { dlBucket, muelBucket } from "./storage/resource";
+import { muelBucket } from "./storage/resource";
 import { Policy, PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
 
 /**
@@ -8,8 +8,7 @@ import { Policy, PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
  */
 const backend = defineBackend({
   auth,
-  muelBucket,
-  dlBucket
+  muelBucket
 });
 
 /**
