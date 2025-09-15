@@ -17,20 +17,24 @@ backend.addOutput({
     bucket_name: "samueeel",
     buckets: [
       {
-        name: "samueeel",
-        bucket_name: "samueeel",
-        aws_region: "eu-north-1",
+      	name: "samueeel",
+      	bucket_name: "samueeel",
+      	aws_region: "eu-north-1",
+      	paths: {
+      		"*": {
+      			groupsmuel: ["get", "list", "write", "delete"],
+      		},
+      	},
       },
       {
-        name: "samuel-glue-test",
-        bucket_name: "samuel-glue-test",
-        aws_region: "eu-north-1",
-        //@ts-expect-error amplify backend type issue https://github.com/aws-amplify/amplify-backend/issues/2569
-        paths: {
-          "*": {
-            groupsmuel: ["get", "list", "write", "delete"],
-          },
-        },
+      	name: "samuel-glue-test",
+      	bucket_name: "samuel-glue-test",
+      	aws_region: "eu-north-1",
+      	paths: {
+      		"*": {
+      			groupsdl: ["get", "list", "write", "delete"],
+      		},
+      	},
       }
     ],
   },
@@ -62,14 +66,30 @@ const muelPolicy = new Policy(backend.stack, "customBucketMuelPolicy", {
     new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
-      resources: [`arn:aws:s3:::samueeel/*`,`arn:aws:s3:::samuel-glue-test/*`],
+      resources: [`arn:aws:s3:::samueeel/*`],
     }),
     new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["s3:ListBucket"],
       resources: [
         `arn:aws:s3:::samueeel`,
-        `arn:aws:s3:::samueeel/*`,
+        `arn:aws:s3:::samueeel/*`
+      ],
+    }),
+  ],
+});
+
+const muelPolicy = new Policy(backend.stack, "customBucketDlPolicy", {
+  statements: [
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+      resources: [`arn:aws:s3:::samuel-glue-test/*`],
+    }),
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["s3:ListBucket"],
+      resources: [
         `arn:aws:s3:::samuel-glue-test`,
         `arn:aws:s3:::samuel-glue-test/*`
       ],
@@ -79,3 +99,4 @@ const muelPolicy = new Policy(backend.stack, "customBucketMuelPolicy", {
 
 // Add the policies to the muel user role
 backend.auth.resources.groups["muel"].role.attachInlinePolicy(muelPolicy);
+backend.auth.resources.groups["dl"].role.attachInlinePolicy(dlPolicy);
