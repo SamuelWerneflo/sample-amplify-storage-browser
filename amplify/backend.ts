@@ -23,7 +23,7 @@ backend.addOutput({
         paths: {
           "*": {
             groupsdl: ["get", "list", "write", "delete"],
-            authenticated: ["get", "list", "write", "delete"],
+            authenticated: ["list"],
           },
         },
       },
@@ -35,7 +35,7 @@ backend.addOutput({
         paths: {
           "*": {
             groupsmuel: ["get", "list", "write", "delete"],
-            authenticated: ["get", "list", "write", "delete"],
+            authenticated: ["list"],
           },
         },
       }
@@ -99,6 +99,21 @@ const dlPolicy = new Policy(backend.stack, "customBucketDlPolicy", {
     }),
   ],
 });
+
+const authPolicy = new Policy(backend.stack, "customBucketAuthPolicy", {
+  statements: [
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["s3:ListBucket"],
+      resources: [
+        `arn:aws:s3:::samuel-glue-test`,
+        `arn:aws:s3:::samueeel`,
+      ],
+    }),
+  ],
+});
+
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(authPolicy);
 
 // Add the policies to the muel user role
 backend.auth.resources.groups["muel"].role.attachInlinePolicy(muelPolicy);
