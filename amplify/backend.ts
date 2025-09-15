@@ -32,7 +32,11 @@ backend.addOutput({
         bucket_name: "samuel-glue-test",
         aws_region: "eu-north-1",
         //@ts-expect-error amplify backend type issue https://github.com/aws-amplify/amplify-backend/issues/2569
-        paths: {},
+        paths: {
+          "*": {
+            groupsmueldl: ["get", "list", "write", "delete"],
+          },
+        },
       }
     ],
   },
