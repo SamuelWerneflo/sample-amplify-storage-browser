@@ -12,8 +12,6 @@ const backend = defineBackend({
 backend.addOutput({
   version: "1.3",
   storage: {
-    aws_region: "eu-north-1",
-    bucket_name: "samueeel",
     buckets: [
       {
         name: "samueeel",
