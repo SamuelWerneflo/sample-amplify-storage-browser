@@ -12,5 +12,5 @@ export const auth = defineAuth({
     mode: 'REQUIRED',
     totp: true,
   },
-  groups: ['muel','dl']
+  groups: ['muel','mueldl']
 });
