@@ -1,3 +1,5 @@
+import { defineStorage } from '@aws-amplify/backend';
+
 export const dlBucket = defineStorage({
   name: 'dl.muel.nu',
   access: (allow) => ({
