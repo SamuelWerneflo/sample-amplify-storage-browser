@@ -27,6 +27,17 @@ backend.addOutput({
           },
         },
       },
+      {
+        name: "samuel-glue-test",
+        bucket_name: "samuel-glue-test",
+        aws_region: "eu-north-1",
+        //@ts-expect-error amplify backend type issue https://github.com/aws-amplify/amplify-backend/issues/2569
+        paths: {
+          "*": {
+            groupsmuel: ["get", "list", "write", "delete"],
+          },
+        },
+      }
     ],
   },
 });
@@ -57,7 +68,7 @@ const muelPolicy = new Policy(backend.stack, "customBucketMuelPolicy", {
     new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
-      resources: [`arn:aws:s3:::samueeel/*`],
+      resources: [`arn:aws:s3:::samueeel/*`,`arn:aws:s3:::samuel-glue-test/*`],
     }),
     new PolicyStatement({
       effect: Effect.ALLOW,
@@ -65,6 +76,8 @@ const muelPolicy = new Policy(backend.stack, "customBucketMuelPolicy", {
       resources: [
         `arn:aws:s3:::samueeel`,
         `arn:aws:s3:::samueeel/*`,
+        `arn:aws:s3:::samuel-glue-test/`,
+        `arn:aws:s3:::samuel-glue-test/*`
       ],
     }),
   ],
