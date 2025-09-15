@@ -12,7 +12,7 @@ const backend = defineBackend({
 backend.addOutput({
   version: "1.3",
   aws_region: "eu-north-1",
-  bucket_name: "samuel-glue-test",
+  bucket_name: "samueeel",
   storage: {
     buckets: [
       {
