@@ -27,20 +27,17 @@ const customBucketName = "dl.muel.nu";
 backend.addOutput({
   version: "1.3",
   storage: {
-    aws_region: "us-east-1",
+    aws_region: "eu-north-1",
     bucket_name: customBucketName,
     buckets: [
       {
         name: customBucketName,
         bucket_name: customBucketName,
-        aws_region: "us-east-1",
+        aws_region: "eu-north-1",
         //@ts-expect-error amplify backend type issue https://github.com/aws-amplify/amplify-backend/issues/2569
         paths: {
-          "public/*": {
+          "*": {
             guest: ["get", "list"],
-            authenticated: ["get", "list", "write", "delete"],
-          },
-          "admin/*": {
             groupsadmin: ["get", "list", "write", "delete"],
             authenticated: ["get", "list", "write", "delete"],
           },
@@ -65,11 +62,6 @@ const unauthPolicy = new Policy(backend.stack, "customBucketUnauthPolicy", {
       effect: Effect.ALLOW,
       actions: ["s3:ListBucket"],
       resources: [`arn:aws:s3:::${customBucketName}`],
-      conditions: {
-        StringLike: {
-          "s3:prefix": ["public/*", "public/"],
-        },
-      },
     }),
   ],
 });
@@ -84,8 +76,8 @@ const authPolicy = new Policy(backend.stack, "customBucketAuthPolicy", {
       effect: Effect.ALLOW,
       actions: ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
       resources: [
-        `arn:aws:s3:::${customBucketName}/public/*`,
-        `arn:aws:s3:::${customBucketName}/admin/*`,
+        `arn:aws:s3:::${customBucketName}/*`,
+        `arn:aws:s3:::${customBucketName}/*`,
       ],
     }),
     new PolicyStatement({
@@ -95,11 +87,6 @@ const authPolicy = new Policy(backend.stack, "customBucketAuthPolicy", {
         `arn:aws:s3:::${customBucketName}`,
         `arn:aws:s3:::${customBucketName}/*`,
       ],
-      conditions: {
-        StringLike: {
-          "s3:prefix": ["public/*", "public/", "admin/*", "admin/"],
-        },
-      },
     }),
   ],
 });
@@ -113,7 +100,7 @@ const adminPolicy = new Policy(backend.stack, "customBucketAdminPolicy", {
     new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
-      resources: [`arn:aws:s3:::${customBucketName}/admin/*`],
+      resources: [`arn:aws:s3:::${customBucketName}/*`],
     }),
     new PolicyStatement({
       effect: Effect.ALLOW,
@@ -122,11 +109,6 @@ const adminPolicy = new Policy(backend.stack, "customBucketAdminPolicy", {
         `arn:aws:s3:::${customBucketName}`,
         `arn:aws:s3:::${customBucketName}/*`,
       ],
-      conditions: {
-        StringLike: {
-          "s3:prefix": ["admin/*", "admin/"],
-        },
-      },
     }),
   ],
 });
