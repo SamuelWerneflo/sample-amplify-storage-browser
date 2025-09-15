@@ -24,28 +24,7 @@ const backend = defineBackend({
  *
  * Note: Ensure the bucket exists before deploying this code, as it only sets up IAM policies and does not create the S3 bucket.
  */
-const customBucketName = "dl.muel.nu";
 
-backend.addOutput({
-  version: "1.3",
-  storage: {
-    aws_region: "eu-north-1",
-    bucket_name: customBucketName,
-    buckets: [
-      {
-        name: customBucketName,
-        bucket_name: customBucketName,
-        aws_region: "eu-north-1",
-        //@ts-expect-error amplify backend type issue https://github.com/aws-amplify/amplify-backend/issues/2569
-        paths: {
-          "*": {
-            groupsdl: ["get", "list", "write", "delete"],
-          },
-        },
-      },
-    ],
-  },
-});
 
 /**
  * Define an inline policy to attach to Admin user role
@@ -56,32 +35,14 @@ const muelPolicy = new Policy(backend.stack, "customBucketMuelPolicy", {
     new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
-      resources: [`arn:aws:s3:::muel.nu/*`],
+      resources: [`arn:aws:s3:::samueeel/*`],
     }),
     new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["s3:ListBucket"],
       resources: [
-        `arn:aws:s3:::muel.nu`,
-        `arn:aws:s3:::muel.nu/*`,
-      ],
-    }),
-  ],
-});
-
-const dlPolicy = new Policy(backend.stack, "customBucketDlPolicy", {
-  statements: [
-    new PolicyStatement({
-      effect: Effect.ALLOW,
-      actions: ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
-      resources: [`arn:aws:s3:::dl.muel.nu/*`],
-    }),
-    new PolicyStatement({
-      effect: Effect.ALLOW,
-      actions: ["s3:ListBucket"],
-      resources: [
-        `arn:aws:s3:::dl.muel.nu`,
-        `arn:aws:s3:::dl.muel.nu/*`,
+        `arn:aws:s3:::samueeel`,
+        `arn:aws:s3:::samueeel/*`,
       ],
     }),
   ],
@@ -89,4 +50,3 @@ const dlPolicy = new Policy(backend.stack, "customBucketDlPolicy", {
 
 // Add the policies to the muel user role
 backend.auth.resources.groups["muel"].role.attachInlinePolicy(muelPolicy);
-backend.auth.resources.groups["dl"].role.attachInlinePolicy(dlPolicy);
