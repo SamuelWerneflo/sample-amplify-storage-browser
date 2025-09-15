@@ -20,7 +20,6 @@ backend.addOutput({
         name: "samueeel",
         bucket_name: "samueeel",
         aws_region: "eu-north-1",
-        },
       },
       {
         name: "samuel-glue-test",
