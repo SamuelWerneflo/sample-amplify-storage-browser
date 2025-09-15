@@ -37,9 +37,18 @@ backend.addOutput({
         //@ts-expect-error amplify backend type issue https://github.com/aws-amplify/amplify-backend/issues/2569
         paths: {
           "*": {
-            guest: ["get", "list"],
-            groupsadmin: ["get", "list", "write", "delete"],
-            authenticated: ["get", "list", "write", "delete"],
+            groupsdl: ["get", "list", "write", "delete"],
+          },
+        },
+      },
+      {
+        name: "muel.nu",
+        bucket_name: "muel.nu",
+        aws_region: "eu-north-1",
+        //@ts-expect-error amplify backend type issue https://github.com/aws-amplify/amplify-backend/issues/2569
+        paths: {
+          "*": {
+            groupsmuel: ["get", "list", "write", "delete"],
           },
         },
       },
@@ -48,78 +57,45 @@ backend.addOutput({
 });
 
 /**
- * Define an inline policy to attach to Amplify's un-auth role
- * This policy defines how unauthenticated users can access your existing bucket
- */
-const unauthPolicy = new Policy(backend.stack, "customBucketUnauthPolicy", {
-  statements: [
-    new PolicyStatement({
-      effect: Effect.ALLOW,
-      actions: ["s3:GetObject"],
-      resources: [`arn:aws:s3:::${customBucketName}/public/*`],
-    }),
-    new PolicyStatement({
-      effect: Effect.ALLOW,
-      actions: ["s3:ListBucket"],
-      resources: [`arn:aws:s3:::${customBucketName}`],
-    }),
-  ],
-});
-
-/**
- * Define an inline policy to attach to Amplify's auth role
- * This policy defines how authenticated users can access your existing bucket
- */
-const authPolicy = new Policy(backend.stack, "customBucketAuthPolicy", {
-  statements: [
-    new PolicyStatement({
-      effect: Effect.ALLOW,
-      actions: ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
-      resources: [
-        `arn:aws:s3:::${customBucketName}/*`,
-        `arn:aws:s3:::${customBucketName}/*`,
-      ],
-    }),
-    new PolicyStatement({
-      effect: Effect.ALLOW,
-      actions: ["s3:ListBucket"],
-      resources: [
-        `arn:aws:s3:::${customBucketName}`,
-        `arn:aws:s3:::${customBucketName}/*`,
-      ],
-    }),
-  ],
-});
-
-/**
  * Define an inline policy to attach to Admin user role
  * This policy defines how authenticated users can access your existing bucket
  */
-const adminPolicy = new Policy(backend.stack, "customBucketAdminPolicy", {
+const muelPolicy = new Policy(backend.stack, "customBucketMuelPolicy", {
   statements: [
     new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
-      resources: [`arn:aws:s3:::${customBucketName}/*`],
+      resources: [`arn:aws:s3:::muel.nu/*`],
     }),
     new PolicyStatement({
       effect: Effect.ALLOW,
       actions: ["s3:ListBucket"],
       resources: [
-        `arn:aws:s3:::${customBucketName}`,
-        `arn:aws:s3:::${customBucketName}/*`,
+        `arn:aws:s3:::muel.nu`,
+        `arn:aws:s3:::muel.nu/*`,
       ],
     }),
   ],
 });
 
-// Add the policies to the unauthenticated user role
-backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(
-  unauthPolicy
-);
+const dlPolicy = new Policy(backend.stack, "customBucketDlPolicy", {
+  statements: [
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+      resources: [`arn:aws:s3:::dl.muel.nu/*`],
+    }),
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ["s3:ListBucket"],
+      resources: [
+        `arn:aws:s3:::dl.muel.nu`,
+        `arn:aws:s3:::dl.muel.nu/*`,
+      ],
+    }),
+  ],
+});
 
-// Add the policies to the authenticated user role
-backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(authPolicy);
-
-// Add the policies to the admin user role
-backend.auth.resources.groups["admin"].role.attachInlinePolicy(adminPolicy);
+// Add the policies to the muel user role
+backend.auth.resources.groups["muel"].role.attachInlinePolicy(muelPolicy);
+backend.auth.resources.groups["dl"].role.attachInlinePolicy(dlPolicy);
