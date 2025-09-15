@@ -41,6 +41,16 @@ backend.addOutput({
           },
         },
       },
+    ],
+  },
+});
+
+backend.addOutput({
+  version: "1.3",
+  storage: {
+    aws_region: "eu-north-1",
+    bucket_name: "muel.nu",
+    buckets: [
       {
         name: "muel.nu",
         bucket_name: "muel.nu",
