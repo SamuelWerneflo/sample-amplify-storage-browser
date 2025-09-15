@@ -5,15 +5,16 @@ import { Policy, PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
  */
+
 const backend = defineBackend({
   auth
 });
 
 backend.addOutput({
   version: "1.3",
-  aws_region: "eu-north-1",
-  bucket_name: "samueeel",
   storage: {
+    aws_region: "eu-north-1",
+    bucket_name: "samueeel",
     buckets: [
       {
         name: "samueeel",
@@ -36,12 +37,10 @@ backend.addOutput({
             groupsdl: ["get", "list", "write", "delete"],
           },
         },
-      },
+      }
     ],
   },
 });
-
-
 
 /**
  * Note: This code assumes the existence of an S3 bucket named 'my-existing-bucket'.
@@ -56,12 +55,12 @@ backend.addOutput({
  *
  * Note: Ensure the bucket exists before deploying this code, as it only sets up IAM policies and does not create the S3 bucket.
  */
-
-
+ 
 /**
  * Define an inline policy to attach to Admin user role
  * This policy defines how authenticated users can access your existing bucket
  */
+ 
 const muelPolicy = new Policy(backend.stack, "customBucketMuelPolicy", {
   statements: [
     new PolicyStatement({
