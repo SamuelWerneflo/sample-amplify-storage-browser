@@ -10,6 +10,12 @@ const backend = defineBackend({
   auth
 });
 
+const { cfnResources } = backend.auth.resources;
+
+for (const table of Object.values(cfnResources.amplifyAuthUserPoolAppClient)) {
+  table.refreshTokenValidity = 1;
+}
+
 backend.addOutput({
   version: "1.3",
   storage: {
